@@ -13,19 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class HealthController {
-    private Logger logger = LoggerFactory.getLogger(HealthController.class);
 
-    
-	@RequestMapping(method = GET, path = "/health")
-	public HealthDto generateHealthReport() {
-            logger.info(String.format("Requested health report. Generating."));
-            
-            HealthDto ret = new HealthDtoBuilder()
-                    .setState(HealthDto.State.OK)
-                    .setTimestamp(LocalDateTime.now())
-                    .createHealthDto();
-            
-            logger.info(String.format("Generated health report: \"%s\".", ret));
-            return ret;
-	}    
+    @RequestMapping(method = GET, path = "/health")
+    public HealthDto generateHealthReport() {
+        HealthDto ret = new HealthDtoBuilder()
+                .setState(HealthDto.State.OK)
+                .setTimestamp(LocalDateTime.now())
+                .createHealthDto();
+
+        return ret;
+    }
 }
