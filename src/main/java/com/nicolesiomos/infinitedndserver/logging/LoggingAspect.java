@@ -1,12 +1,16 @@
 package com.nicolesiomos.infinitedndserver.logging;
 
+import com.google.common.io.Closer;
+import com.nicolesiomos.infinitedndserver.logging.util.MdcUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -19,7 +23,13 @@ import org.springframework.util.StopWatch;
 public class LoggingAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingAspect.class);
     
-    @Around("execution(public * com.nicolesiomos.infinitedndserver.api.*.*(..)) && @within(org.springframework.web.bind.annotation.RestController)")
+    @Pointcut("execution(public * com.nicolesiomos.infinitedndserver.api.*.*(..))")
+    private void isPublicApiMethod() {}
+    
+    @Pointcut("@target(org.springframework.web.bind.annotation.RestController)")
+    private void isRestControllerClass() {}    
+    
+    @Around("isRestControllerClass() && isPublicApiMethod()")
     public Object logRestInterface(ProceedingJoinPoint proceedingJoinPoint) throws Throwable 
     {
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();
@@ -30,14 +40,13 @@ public class LoggingAspect {
         String parameters = ToStringBuilder.reflectionToString(methodSignature.getMethod().getParameters());
         
         final StopWatch stopWatch = new StopWatch();
-          
-        //Measure method execution time
-        try {
+        try (Closer context = Closer.create()) {
             stopWatch.start();
             LOGGER.info(String.format(">%s(%s)", methodName, parameters));
             Object result = proceedingJoinPoint.proceed();
             stopWatch.stop();
-            LOGGER.info(String.format("<%s:%sms: %s", methodName, stopWatch.getTotalTimeMillis(), ToStringBuilder.reflectionToString(result)));
+            MdcUtils.putInCurrentContext(context, MdcKey.DURATION_IN_MS, String.valueOf(stopWatch.getTotalTimeMillis()));
+            LOGGER.info(String.format("<%s: %s", methodName, ToStringBuilder.reflectionToString(result)));
   
             return result;
         } catch (Exception ex) {
