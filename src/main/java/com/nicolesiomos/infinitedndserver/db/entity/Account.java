@@ -9,7 +9,7 @@ import javax.persistence.NamedQuery;
  * @author Nicole Siomos <nicole.siomos at yahoo.com>
  */
 @Entity
-@NamedQuery(name = Account.QUERY_ACCOUNT_COUNT, query = "SELECT COUNT(*) FROM Account")
+@NamedQuery(name = Account.QUERY_ACCOUNT_COUNT, query = "SELECT COUNT(a) FROM Account a")
 public class Account extends BaseEntity {
 
     public static final String QUERY_ACCOUNT_COUNT = "Account.count";
