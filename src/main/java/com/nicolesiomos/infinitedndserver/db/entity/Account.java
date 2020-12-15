@@ -2,16 +2,17 @@ package com.nicolesiomos.infinitedndserver.db.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Nicole Siomos <nicole.siomos at yahoo.com>
  */
 @Entity
-@Table(name = "account")
-public class AccountEntity extends BaseEntity {
+@NamedQuery(name = Account.QUERY_ACCOUNT_COUNT, query = "SELECT COUNT(*) FROM Account")
+public class Account extends BaseEntity {
+
+    public static final String QUERY_ACCOUNT_COUNT = "Account.count";
 
     private String emailAddress;
 
