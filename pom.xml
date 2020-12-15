@@ -26,7 +26,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -58,7 +61,13 @@
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-aop</artifactId>
-                </dependency>                
+                </dependency>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <version>1.4.193</version>
+                    <scope>runtime</scope>
+                </dependency>
                 <dependency>
                     <groupId>org.apache.commons</groupId>
                     <artifactId>commons-lang3</artifactId>
@@ -67,7 +76,7 @@
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
                     <version>30.0-jre</version>
-                </dependency>              
+                </dependency>
                 <dependency>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-test</artifactId>
@@ -78,14 +87,14 @@
                             <artifactId>junit-vintage-engine</artifactId>
                         </exclusion>
                     </exclusions>
-                </dependency> 
-            </dependencies>               
+                </dependency>
+            </dependencies>
         </profile>
-        
-        
+
+
         <profile>
             <id>update-rulebook</id>
-        
+
             <pluginRepositories>
                 <pluginRepository>
                     <id>sonatype-public-repository</id>
@@ -96,8 +105,8 @@
                     <releases>
                         <enabled>true</enabled>
                     </releases>
-                </pluginRepository>            
-            </pluginRepositories>       
+                </pluginRepository>
+            </pluginRepositories>
             <build>
                 <plugins>
                     <plugin>
@@ -114,7 +123,7 @@
                                 </fileset>
                             </filesets>
                         </configuration>
-                    </plugin>                    
+                    </plugin>
                     <plugin>
                         <groupId>com.googlecode.maven-download-plugin</groupId>
                         <artifactId>download-maven-plugin</artifactId>
@@ -155,7 +164,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>02-classes.json</outputFileName>
                                 </configuration>
-                            </execution>     
+                            </execution>
                             <execution>
                                 <id>update-rulebook-03-beyond1st</id>
                                 <phase>generate-resources</phase>
@@ -167,7 +176,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>03-beyond1st.json</outputFileName>
                                 </configuration>
-                            </execution>   
+                            </execution>
                             <execution>
                                 <id>update-rulebook-04-equipment</id>
                                 <phase>generate-resources</phase>
@@ -179,7 +188,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>04-equipment.json</outputFileName>
                                 </configuration>
-                            </execution>    
+                            </execution>
                             <execution>
                                 <id>update-rulebook-05-feats</id>
                                 <phase>generate-resources</phase>
@@ -191,7 +200,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>05-feats.json</outputFileName>
                                 </configuration>
-                            </execution>     
+                            </execution>
                             <execution>
                                 <id>update-rulebook-06-mechanics</id>
                                 <phase>generate-resources</phase>
@@ -203,7 +212,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>06-mechanics.json</outputFileName>
                                 </configuration>
-                            </execution>  
+                            </execution>
                             <execution>
                                 <id>update-rulebook-07-combat</id>
                                 <phase>generate-resources</phase>
@@ -215,7 +224,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>07-combat.json</outputFileName>
                                 </configuration>
-                            </execution>                                                                                                                                                                 
+                            </execution>
                             <execution>
                                 <id>update-rulebook-08-spellcasting</id>
                                 <phase>generate-resources</phase>
@@ -227,7 +236,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>08-spellcasting.json</outputFileName>
                                 </configuration>
-                            </execution>      
+                            </execution>
                             <execution>
                                 <id>update-rulebook-09-running</id>
                                 <phase>generate-resources</phase>
@@ -239,7 +248,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>09-running.json</outputFileName>
                                 </configuration>
-                            </execution>     
+                            </execution>
                             <execution>
                                 <id>update-rulebook-10-magic-items</id>
                                 <phase>generate-resources</phase>
@@ -251,7 +260,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>10-magic-items.json</outputFileName>
                                 </configuration>
-                            </execution>       
+                            </execution>
                             <execution>
                                 <id>update-rulebook-11-monsters</id>
                                 <phase>generate-resources</phase>
@@ -263,7 +272,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>11-monsters.json</outputFileName>
                                 </configuration>
-                            </execution>  
+                            </execution>
                             <execution>
                                 <id>update-rulebook-12-conditions</id>
                                 <phase>generate-resources</phase>
@@ -275,7 +284,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>12-conditions.json</outputFileName>
                                 </configuration>
-                            </execution>   
+                            </execution>
                             <execution>
                                 <id>update-rulebook-13-gods</id>
                                 <phase>generate-resources</phase>
@@ -287,7 +296,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>13-gods.json</outputFileName>
                                 </configuration>
-                            </execution>   
+                            </execution>
                             <execution>
                                 <id>update-rulebook-14-planes</id>
                                 <phase>generate-resources</phase>
@@ -299,7 +308,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>14-planes.json</outputFileName>
                                 </configuration>
-                            </execution>            
+                            </execution>
                             <execution>
                                 <id>update-rulebook-15-creatures</id>
                                 <phase>generate-resources</phase>
@@ -311,7 +320,7 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>15-creatures.json</outputFileName>
                                 </configuration>
-                            </execution>            
+                            </execution>
                             <execution>
                                 <id>update-rulebook-16-npcs</id>
                                 <phase>generate-resources</phase>
@@ -323,11 +332,11 @@
                                     <outputDirectory>${resources.rulebook.dnd5e.directory}</outputDirectory>
                                     <outputFileName>16-npcs.json</outputFileName>
                                 </configuration>
-                            </execution>                                                                                                                                                                                                                                                                                                                                                               
+                            </execution>
                         </executions>
-                    </plugin>                        
+                    </plugin>
                 </plugins>
-            </build> 
+            </build>
         </profile>
     </profiles>
     <build>
